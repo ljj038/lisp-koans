@@ -16,8 +16,8 @@
     "We can apply a function to each member
      of a list using mapcar."
   (defun times-two (x) (* x 2))
-  (assert-equal ____ (mapcar #'times-two '(1 2 3)))
-  (assert-equal ____ (mapcar #'first '((3 2 1)
+  (assert-equal '(2 4 6) (mapcar #'times-two '(1 2 3)))
+  (assert-equal '(3 "little" "pigs") (mapcar #'first '((3 2 1)
                                       ("little" "small" "tiny")
                                       ("pigs" "hogs" "swine")))))
 
@@ -26,15 +26,15 @@
     "The mapcar function can be applied to
      more than one list. It applies a function
      to successive elements of the lists."
-  (assert-equal ____ (mapcar #'* '(1 2 3) '(4 5 6)))
-  (assert-equal ____ (mapcar #'list '("lisp" "are") '("koans" "fun"))))
+  (assert-equal '(4 10 18) (mapcar #'* '(1 2 3) '(4 5 6)))
+  (assert-equal '(("lisp" "koans") ("are" "fun")) (mapcar #'list '("lisp" "are") '("koans" "fun"))))
 
 
 (define-test test-transpose-using-mapcar
     "Replace the usage of WRONG-FUNCTION in 'transpose' with the
      correct lisp function (don't forget the #')."
   (defun WRONG-FUNCTION-1 (&rest rest) '())
-  (defun transpose (L) (apply #'mapcar (cons #'WRONG-FUNCTION-1 L)))
+  (defun transpose (L) (apply #'mapcar (cons #'list L)))
   (assert-equal '((1 4 7)
                   (2 5 8)
                   (3 6 9))
