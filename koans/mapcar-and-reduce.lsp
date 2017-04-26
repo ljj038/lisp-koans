@@ -33,8 +33,8 @@
 (define-test test-transpose-using-mapcar
     "Replace the usage of WRONG-FUNCTION in 'transpose' with the
      correct lisp function (don't forget the #')."
-  (defun WRONG-FUNCTION-1 (&rest rest) '())
-  (defun transpose (L) (apply #'mapcar (cons #'list L)))
+  (defun WRONG-FUNCTION-1 (&rest rest) rest)
+  (defun transpose (L) (apply #'mapcar (cons #'WRONG-FUNCTION-1 L)))
   (assert-equal '((1 4 7)
                   (2 5 8)
                   (3 6 9))
@@ -52,25 +52,25 @@
     "The reduce function combines the elements
      of a list, from left to right, by applying
      a binary function to the list elements."
-  (assert-equal ___  (reduce #'+ '(1 2 3 4)))
-  (assert-equal ___ (reduce #'expt '(2 3 2))))
+  (assert-equal 10  (reduce #'+ '(1 2 3 4)))
+  (assert-equal 64 (reduce #'expt '(2 3 2))))
 
 
 (define-test test-reduce-right-to-left
     "The keyword :from-end allows us to apply
      reduce from right to left."
-  (assert-equal ___ (reduce #'+ '(1 2 3 4) :from-end t))
-  (assert-equal ___ (reduce #'expt '(2 3 2) :from-end t)))
+  (assert-equal 10 (reduce #'+ '(1 2 3 4) :from-end t))
+  (assert-equal 512 (reduce #'expt '(2 3 2) :from-end t)))
 
 
 (define-test test-reduce-with-initial-value
     "We can supply an initial value to reduce."
-  (assert-equal ___ (reduce #'expt '(10 21 34 43) :initial-value 1))
-  (assert-equal ___ (reduce #'expt '(10 21 34 43) :initial-value 0)))
+  (assert-equal 1 (reduce #'expt '(10 21 34 43) :initial-value 1))
+  (assert-equal 0 (reduce #'expt '(10 21 34 43) :initial-value 0)))
 
 
-(defun WRONG-FUNCTION-2 (a b) (a))
-(defun WRONG-FUNCTION-3 (a b) (a))
+(defun WRONG-FUNCTION-2 (a b) (+ a b))
+(defun WRONG-FUNCTION-3 (a b) (* a b))
 
 (define-test test-mapcar-and-reduce
     "mapcar and reduce are a powerful combination.
